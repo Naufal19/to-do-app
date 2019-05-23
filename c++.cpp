@@ -1,16 +1,16 @@
 #include <iostream>
 using namespace std ;
- 
-struct isi {
-    string todo ;
-    isi* nexttodo ;
-};
+
+// struct isi {
+//     string todo ;
+//     isi* nexttodo ;
+// };
 
 struct minggu {
     int weeks ;
     char jumlah[10] ;
     minggu* nextminggu ;
-    isi* firsttodo ;
+    // isi* firsttodo ;
 };
 
 struct bulan {
@@ -19,11 +19,9 @@ struct bulan {
     minggu* firstminggu ;    
 };
 
-
 typedef bulan* listbulan ;
 typedef bulan* pointerbulan ;
 typedef minggu* pointerminggu ;
-typedef isi* pointerisi ;
 
 // Create List
 void CreateList(listbulan &First){
@@ -67,15 +65,12 @@ void Bulan(listbulan& First, pointerbulan& pBaru) {
 void CreateWeek (pointerminggu& pBaru, listbulan& First) {
     pointerbulan p;
     p = First ;
-
     while (p != NULL) {
- 
         for (int i = 0 ; i < 5; i++) {
             //create
             pBaru = new minggu ;
             pBaru->weeks = i+1 ;
-            pBaru->nextminggu = NULL ;
-                
+            pBaru->nextminggu = NULL ;     
                 // insert
             	if (p->firstminggu == NULL){
 			        cout << i+1 ;
@@ -121,8 +116,6 @@ void LinearSearchWeek(pointerbulan& First, int key, int &status, pointerminggu &
     }
 }
 
-void
-
 // Show Weeks Whit Key
 void ShowWeeks (listbulan First) {
     pointerbulan pBantu ;
@@ -158,31 +151,24 @@ void ShowMainList (listbulan First) {
 }
 
 void CreateToDoList (pointerisi ToDo, pointerminggu& p) {
-    int x,y, status ;
-    pointerbulan pBantu ;
-    cout << "Minggu ke ? " ; cin >> y ;
-        LinearSearchWeek(pBantu,y,status,p) ;
+    // int x,y, status ;
+    // pointerbulan pBantu ;
+    // cout << "Minggu ke ? " ; cin >> y ;
+    //     LinearSearchWeek(pBantu,y,status,p) ;
 
-    if (status) {
-        cout << "Jumlah To Do List : " ; cin >> x ;    
-        cin.ignore() ;
-        for (int i = 0; i < x ; i++) {
-            // Create ToDo
-            ToDo = new isi ;
-            cout << i << ". " ; getline(cin,ToDo->todo) ;
-            ToDo->nexttodo = NULL ;
+    // if (status) {
+    //     cout << "Jumlah To Do List : " ; cin >> x ;    
+    //     cin.ignore() ;
+    //     for (int i = 0; i < x ; i++) {
+    //         // Create ToDo
+    //         ToDo = new isi ;
+    //         cout << i << ". " ; getline(cin,ToDo->todo) ;
+    //         ToDo->nexttodo = NULL ;
 
-            // Insert Todo 
+    //         // Insert Todo 
 
-        }
+    //     }
         
-    
-
-
-
-    for (int i = 0; i < x; i++) {
-        p->jumlah[i] = ToDo ;
-    }
      
 }
 
@@ -201,10 +187,9 @@ int main(int argc, char const *argv[])
     CreateList(first) ;
     Bulan(first,b) ;
 
-    cout << "1. Create Week\n" ;
-    cout << "2. Create To Do List\n" ;    
-    cout << "3. Delete To Do List\n" ;
-    cout << "4. Show To Do List\n" ;
+    cout << "1. Create To Do List\n" ;    
+    cout << "2. Delete To Do List\n" ;
+    cout << "3. Show To Do List\n" ;
 
 
     CreateToDoList(s) ;
