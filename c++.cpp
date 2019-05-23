@@ -1,10 +1,16 @@
 #include <iostream>
 using namespace std ;
+ 
+struct isi {
+    string todo ;
+    isi* nexttodo ;
+};
 
 struct minggu {
     int weeks ;
-    char isi[1000] ;
+    char jumlah[10] ;
     minggu* nextminggu ;
+    isi* firsttodo ;
 };
 
 struct bulan {
@@ -13,9 +19,11 @@ struct bulan {
     minggu* firstminggu ;    
 };
 
+
 typedef bulan* listbulan ;
 typedef bulan* pointerbulan ;
 typedef minggu* pointerminggu ;
+typedef isi* pointerisi ;
 
 // Create List
 void CreateList(listbulan &First){
@@ -83,7 +91,7 @@ void CreateWeek (pointerminggu& pBaru, listbulan& First) {
     }
 }
 
-// Searching
+// Search Month
 void LinearSearch(listbulan& First, string key, int &status, pointerbulan &pBantu){
     pBantu = First;
     status = 0;
@@ -97,6 +105,23 @@ void LinearSearch(listbulan& First, string key, int &status, pointerbulan &pBant
             pBantu = pBantu->nextbulan;
     }
 }
+
+// Search Week
+void LinearSearchWeek(pointerbulan& First, int key, int &status, pointerminggu &pBantu){
+    pBantu = First->firstminggu ;
+    status = 0;
+    while (pBantu != NULL && status == 0)
+    { //!ketemu
+        if (pBantu->weeks == key){
+            cout << "Ditemukan " ;
+            status = 1;
+        }
+        else
+            pBantu = pBantu->nextminggu ;
+    }
+}
+
+void
 
 // Show Weeks Whit Key
 void ShowWeeks (listbulan First) {
@@ -132,6 +157,36 @@ void ShowMainList (listbulan First) {
     }   
 }
 
+void CreateToDoList (pointerisi ToDo, pointerminggu& p) {
+    int x,y, status ;
+    pointerbulan pBantu ;
+    cout << "Minggu ke ? " ; cin >> y ;
+        LinearSearchWeek(pBantu,y,status,p) ;
+
+    if (status) {
+        cout << "Jumlah To Do List : " ; cin >> x ;    
+        cin.ignore() ;
+        for (int i = 0; i < x ; i++) {
+            // Create ToDo
+            ToDo = new isi ;
+            cout << i << ". " ; getline(cin,ToDo->todo) ;
+            ToDo->nexttodo = NULL ;
+
+            // Insert Todo 
+
+        }
+        
+    
+
+
+
+    for (int i = 0; i < x; i++) {
+        p->jumlah[i] = ToDo ;
+    }
+     
+}
+
+
 
 
 int main(int argc, char const *argv[])
@@ -139,6 +194,7 @@ int main(int argc, char const *argv[])
     listbulan first ;
     pointerbulan b ;
     string x ;
+    isi s ;
     pointerminggu m ;
     
     //Month Lists
@@ -150,4 +206,6 @@ int main(int argc, char const *argv[])
     cout << "3. Delete To Do List\n" ;
     cout << "4. Show To Do List\n" ;
 
+
+    CreateToDoList(s) ;
 }
