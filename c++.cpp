@@ -150,27 +150,26 @@ void ShowMainList (listbulan First) {
     }   
 }
 
-void CreateToDoList (pointerisi ToDo, pointerminggu& p) {
-    // int x,y, status ;
-    // pointerbulan pBantu ;
-    // cout << "Minggu ke ? " ; cin >> y ;
-    //     LinearSearchWeek(pBantu,y,status,p) ;
+// void CreateToDoList (pointerisi ToDo, pointerminggu& p) {
+//     // int x,y, status ;
+//     // pointerbulan pBantu ;
+//     // cout << "Minggu ke ? " ; cin >> y ;
+//     //     LinearSearchWeek(pBantu,y,status,p) ;
 
-    // if (status) {
-    //     cout << "Jumlah To Do List : " ; cin >> x ;    
-    //     cin.ignore() ;
-    //     for (int i = 0; i < x ; i++) {
-    //         // Create ToDo
-    //         ToDo = new isi ;
-    //         cout << i << ". " ; getline(cin,ToDo->todo) ;
-    //         ToDo->nexttodo = NULL ;
+//     // if (status) {
+//     //     cout << "Jumlah To Do List : " ; cin >> x ;    
+//     //     cin.ignore() ;
+//     //     for (int i = 0; i < x ; i++) {
+//     //         // Create ToDo
+//     //         ToDo = new isi ;
+//     //         cout << i << ". " ; getline(cin,ToDo->todo) ;
+//     //         ToDo->nexttodo = NULL ;
 
-    //         // Insert Todo 
+//     //         // Insert Todo 
 
-    //     }
+//     //     }
         
-     
-}
+// }
 
 
 
@@ -180,7 +179,6 @@ int main(int argc, char const *argv[])
     listbulan first ;
     pointerbulan b ;
     string x ;
-    isi s ;
     pointerminggu m ;
     
     //Month Lists
@@ -190,7 +188,7 @@ int main(int argc, char const *argv[])
     cout << "1. Create To Do List\n" ;    
     cout << "2. Delete To Do List\n" ;
     cout << "3. Show To Do List\n" ;
+    
+    ShowMainList(first) ;
 
-
-    CreateToDoList(s) ;
 }
