@@ -228,9 +228,9 @@ void deleteQueue(int& status, pointerbulan& pBulan, pointerminggu& pMinggu)
     {
         cout << "Coba lagi" ;
     }
-    
-    
 }
+
+
 
 
 int main(int argc, char const *argv[])
@@ -256,6 +256,8 @@ int main(int argc, char const *argv[])
     cout << "1. Create To Do List\n" ;    
     cout << "2. Delete To Do List\n" ;
     cout << "3. Show To Do List\n" ;
+
+    cout << "\nMENU DIATAS GA GUNA\n" ;
     
     LinearSearchMonth(first,x,status,b) ;
     LinearSearchWeek(b,key,pm) ;
@@ -273,6 +275,7 @@ int main(int argc, char const *argv[])
     createTodoList(pQ) ;
     insertPriorTodoList(pQ,b,status,pm) ;
 
+    cout << "==\npunten mau nampilin data==\n" ;
     LinearSearchMonth(first,x,status,b) ;
     cetak(status,b,pm) ;
 
@@ -281,4 +284,9 @@ int main(int argc, char const *argv[])
     LinearSearchWeek(b,key,pm) ;    
     deleteQueue(status,b,pm) ;      
     cetak(status,b,pm) ;
+
+    LinearSearchMonth(first,x,status,b) ;    
+    LinearSearchWeek(b,key,pm) ;    
+
+
 }
