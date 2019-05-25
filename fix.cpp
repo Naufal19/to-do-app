@@ -108,12 +108,21 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
 void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBantu){
     pBantu = First;
     status = 0;
-    cout << "Bulan : "; 
-    cin >> key ;
+    while (1)
+    {
+        cout << "Bulan : "; cin >> key;
+        if (key > 12 || key < 1)
+        {
+            cout << "Bulan tidak valid!\n";
+        } else {
+            break;
+        }
+    }
+    
     while (pBantu != NULL && status == 0)
     { //!ketemu
         if (pBantu->monthKode == key) {
-            cout << pBantu->months << " ditemukan!\n" ;
+            // cout << pBantu->months << " ditemukan!\n" ;
             status = 1;
         }
         else{
@@ -123,13 +132,22 @@ void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBa
 }
 
 void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
-    cout << "Minggu : "; cin >> key;
-    pBantu = First->firstminggu ;
+    while (1)
+    {
+        cout << "Minggu : "; cin >> key;
+        if (key > 12 || key < 1)
+        {
+            cout << "Bulan tidak valid!\n";
+        } else {
+            break;
+        }
+    }
+    pBantu = First->firstminggu;
     int status = 0;
     while (pBantu != NULL && status == 0)
     { //!ketemu
         if (pBantu->weeks == key){
-            cout << "ditemukan!" ;
+            // cout << "ditemukan!" ;
             status = 1;
         }
         else
@@ -144,8 +162,10 @@ void createTodoList(pQueue &pBaru)
 {
     pBaru = new elementQ;
 
-    cout << "Info : ";
-    cin >> pBaru->info;
+    cout << "Todo : ";
+    cin.ignore();
+    getline(cin, pBaru->info);
+    // cin >> pBaru->info;
     cout << "Prioritas : ";
     cin >> pBaru->prior;
     pBaru->next = NULL;
@@ -313,7 +333,7 @@ int main(int argc, char const *argv[])
         case 1:
             system("CLS");
             char lagi;
-            cout << "CREATE TODO LIST\n";
+            cout << "----|| CREATE TODO LIST ||----\n";
             LinearSearchMonth(first,x,status,b) ;
             LinearSearchWeek(b,key,pm) ;
             do
