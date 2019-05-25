@@ -194,22 +194,32 @@ void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
     cout << "Cari To Do List : " ;
     cin >> info1 ;
     
-    firstminggu pBantu ;
-    pBantu = pBantu0  ;
+    pQueue pBantu, pQ ;
+    pBantu = pBantu0->firstQ  ;
 
     status = 0 ;
 
-    cout << p->months << " " << pBantu->weeks << "\n" ;
-    while (pBantu->firstQ != NULL && status == 0)
+    cout << p->months << " " << pBantu0->weeks << "\n" ;
+    while (pBantu != NULL && status == 0)
     {
-        if (info1 == pBantu->firstQ->info ) {
+        if (info1 == pBantu->info ) {
             cout << "Ada\n" ;
             status = 1 ;
         }
         else {
-            pBantu->firstQ = pBantu->firstQ->next ;
+            pBantu = pBantu->next ;
         }   
     }
+
+    if (status == 1) {
+        /* code */
+        pQ = new elementQ;
+        cout << "Info : ";
+        cin >> pQueue->info;
+        pBaru->next = NULL;
+        swap (pQ->info, pBantu->info) ;
+    }
+    
 }
 
 void cetak (int& status, listbulan& pBulan, pointerminggu& pCari0) {
@@ -327,5 +337,12 @@ int main(int argc, char const *argv[])
     LinearSearchWeek(b,key,pm) ;
     deleteQueue(status,b,pm) ;
     cetak(status,b,pm) ;
-        
+
+// Update
+    LinearSearchMonth(first,x,status,b) ;
+    LinearSearchWeek(b,key,pm) ;
+    LinearSearchToDo(pm,b,status) ;
+    cetak(status,b,pm) ;
+
+
 }
