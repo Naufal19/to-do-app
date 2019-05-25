@@ -211,9 +211,9 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
 // MASIH BUG !!
 void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
     string info1 ;
-    cout << "Cari To Do List : " ;
-    cin >> info1 ;
-    
+    cin.ignore() ;
+    cout << "Cari To Do List : " ;    
+    getline (cin, info1) ;
     pQueue pBantu, pQ ;
     pBantu = pBantu0->firstQ  ;
 
@@ -235,7 +235,7 @@ void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
         /* code */
         pQ = new elementQ;
         cout << "Info : ";
-        cin >> pQ->info;
+        getline (cin, pQ->info) ;
         pQ->next = NULL;
         swap (pQ->info, pBantu->info) ;
     }
