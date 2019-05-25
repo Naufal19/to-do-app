@@ -3,7 +3,7 @@ using namespace std ;
 
 struct elementQ
 {
-    char info[20];
+    string info;
     int prior;
     elementQ *next;
  
@@ -116,7 +116,6 @@ void LinearSearchMonth(listbulan& First, string key, int &status, pointerbulan& 
         }
         else{
             pBantu = pBantu->nextbulan;
-            cout << "S " ;
         }
     }
 }
@@ -136,8 +135,9 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
             pBantu = pBantu->nextminggu ;
     }
     cout << "\n==============\n" ;
-    cout << First->months << pBantu->weeks ;
+    cout << First->months << ", Minggu ke " << pBantu->weeks ;
 }
+
 
 void createTodoList(pQueue &pBaru)
 {
@@ -162,7 +162,7 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
             pMinggu->firstQ = pBaru ;
             pMinggu->lastQ = pBaru ;
         }
-        else
+        else   
         {
             while (pBaru->prior > pBantu->prior && pBantu->next != NULL){ //!pentinggg!!!
                 pBantuPrev = pBantu;
@@ -188,18 +188,47 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
     }
 }
 
-void cetak (int& status, pointerbulan& pBulan, pointerminggu& pCari) {
-    cout << pBulan->months ;
+// MASIH BUG !!
+void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
+    string info1 ;
+    cout << "Cari To Do List : " ;
+    cin >> info1 ;
     
+    firstminggu pBantu ;
+    pBantu = pBantu0  ;
+
+    status = 0 ;
+
+    cout << p->months << " " << pBantu->weeks << "\n" ;
+    while (pBantu->firstQ != NULL && status == 0)
+    {
+        if (info1 == pBantu->firstQ->info ) {
+            cout << "Ada\n" ;
+            status = 1 ;
+        }
+        else {
+            pBantu->firstQ = pBantu->firstQ->next ;
+        }   
+    }
+}
+
+void cetak (int& status, listbulan& pBulan, pointerminggu& pCari0) {
+    pQueue pq ;
+    firstminggu pCari ;
+    pCari = pBulan->firstminggu ;
+
+    cout << pBulan->months ;
     if (status == 1)
     {
-        while (pCari != NULL) {
-            /* code */
-            cout << pCari->weeks << endl ;
-            while (pCari->firstQ != NULL) {
+        cout << endl ;
+        for(int i = 0 ; i < 5 ; i++) {
+            /* code */  
+            pq = pCari->firstQ ;
+            cout << "Minggu : " << pCari->weeks << endl ;
+            while (pq != NULL) {
                 /* code */
-                cout << "\t"<< pCari->firstQ->info << " " << pCari->firstQ->prior << endl ;
-                pCari->firstQ = pCari->firstQ->next ;
+                cout << "\t"<< pq->info << " " << pq->prior << endl ;
+                pq = pq->next ;
             }
             pCari = pCari->nextminggu ;
         }
@@ -231,8 +260,6 @@ void deleteQueue(int& status, pointerbulan& pBulan, pointerminggu& pMinggu)
 }
 
 
-
-
 int main(int argc, char const *argv[])
 {   
     listbulan first ;
@@ -247,7 +274,6 @@ int main(int argc, char const *argv[])
     int key ;
     int status ;
     int found ;
-    
     //Month Lists
     CreateList(first) ;
     Bulan(first,b) ;
@@ -275,18 +301,31 @@ int main(int argc, char const *argv[])
     createTodoList(pQ) ;
     insertPriorTodoList(pQ,b,status,pm) ;
 
-    cout << "==\npunten mau nampilin data==\n" ;
+    LinearSearchMonth(first,x,status,b) ;
+    LinearSearchWeek(b,key,pm) ;
+    createTodoList(pQ) ;
+    insertPriorTodoList(pQ,b,status,pm) ;
+
+    LinearSearchMonth(first,x,status,b) ;
+    LinearSearchWeek(b,key,pm) ;
+    createTodoList(pQ) ;
+    insertPriorTodoList(pQ,b,status,pm) ;
+
+    cout << "\n==punten mau nampilin data==\n" ;
     LinearSearchMonth(first,x,status,b) ;
     cetak(status,b,pm) ;
 
-    cout << "==\npunten mau ngapus nih==\n" ;
+    cout << "\n==punten mau ngapus data==\n" ;
     LinearSearchMonth(first,x,status,b) ;
-    LinearSearchWeek(b,key,pm) ;    
-    deleteQueue(status,b,pm) ;      
+    LinearSearchWeek(b,key,pm) ;
+    deleteQueue(status,b,pm) ;
     cetak(status,b,pm) ;
 
-    LinearSearchMonth(first,x,status,b) ;    
-    LinearSearchWeek(b,key,pm) ;    
-
-
+    
+    cout << "\n==punten mau ngapus data lagi==\n" ;
+    LinearSearchMonth(first,x,status,b) ;
+    LinearSearchWeek(b,key,pm) ;
+    deleteQueue(status,b,pm) ;
+    cetak(status,b,pm) ;
+        
 }
