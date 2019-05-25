@@ -85,13 +85,13 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
     p = First ;
     while (p != NULL) {
         for (int i = 5 ; i > 0; i--) {
-            //create
+            //Create Week
             pBaru = new minggu ;
             pBaru->weeks = i;
             pBaru->nextminggu = NULL ;
             pBaru->firstQ = NULL ;   
             pBaru->lastQ = NULL ;  
-                // insert
+                // Insert Week
             	if (p->firstminggu == NULL){
                     p->firstminggu = pBaru ;
 		        }
@@ -110,7 +110,7 @@ void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBa
     status = 0;
     while (1)
     {
-        cout << "Bulan : "; cin >> key;
+        cout << "Bulan ke : "; cin >> key;
         if (key > 12 || key < 1)
         {
             cout << "Bulan tidak valid!\n";
@@ -135,9 +135,9 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
     while (1)
     {
         cout << "Minggu : "; cin >> key;
-        if (key > 12 || key < 1)
+        if (key > 5 || key < 1)
         {
-            cout << "Bulan tidak valid!\n";
+            cout << "Minggu tidak valid!\n";
         } else {
             break;
         }
@@ -154,7 +154,7 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
             pBantu = pBantu->nextminggu ;
     }
     cout << "\n==============\n" ;
-    cout << First->months << ", Minggu ke-" << pBantu->weeks << "\n";
+    cout << First->months << ", Minggu ke-" << pBantu->weeks  << "\n";
 }
 
 
@@ -188,7 +188,7 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
                 pBantuPrev = pBantu;
                 pBantu = pBantu->next ;
             }
-                if (pBantu == pMinggu->firstQ && pBaru->prior > pBantu->prior){
+                if (pBantu == pMinggu->firstQ && pBaru->prior >= pBantu->prior){
                     //insert first
                     pBaru->next = pBantu;
                     pMinggu->firstQ = pBaru ;
@@ -234,11 +234,16 @@ void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
     if (status == 1) {
         /* code */
         pQ = new elementQ;
-        cout << "Info : ";
+        cout << "To Do : ";
         getline (cin, pQ->info) ;
         pQ->next = NULL;
         swap (pQ->info, pBantu->info) ;
     }
+    else
+    {
+        cout << "To Do List Tidak Ditemukan !\n" ;
+    }
+    
     
 }
 
@@ -278,19 +283,19 @@ void deleteQueue(int& status, pointerbulan& pBulan, pointerminggu& pMinggu)
     {
         if (pMinggu->firstQ == NULL && pMinggu->lastQ == NULL)
         {
-            cout << "\n\t***List Kosong!***" << endl;
+            cout << "\n\t***List Kosong!***\n" << endl;
         }
         else
         {
             pHapus = pMinggu->firstQ ;
             pMinggu->firstQ = pMinggu->firstQ->next;
             pHapus->next = NULL ;
-            cout << "\n\t***List yang dihapus adalah " << pHapus->info << "***" << endl;
+            cout << "\n\t***List yang dihapus adalah " << pHapus->info << "***\n" << endl;
         }
     }
     else
     {
-        cout << "Coba lagi" ;
+        cout << "Coba lagi\n" ;
     }
 }
 
