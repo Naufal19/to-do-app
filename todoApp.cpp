@@ -189,16 +189,16 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
         }
         else   
         {
-            while (pBaru->prior < pBantu->prior && pBantu->next != NULL){ //!pentinggg!!!
+            while (pBaru->prior > pBantu->prior && pBantu->next != NULL){ //!pentinggg!!!
                 pBantuPrev = pBantu;
                 pBantu = pBantu->next ;
             }
-            if (pBantu == pMinggu->firstQ && pBaru->prior > pBantu->prior){
+            if (pBantu == pMinggu->firstQ && pBaru->prior <= pBantu->prior){
                 //insert first
                 pBaru->next = pBantu;
                 pMinggu->firstQ = pBaru ;
             }
-            else if (pBantu == pMinggu->lastQ && pBaru->prior < pBantu->prior){ 
+            else if (pBantu == pMinggu->lastQ && pBaru->prior > pBantu->prior){ 
                 //insert last
                 pBantu->next = pBaru;
                 pMinggu->lastQ = pBaru;
