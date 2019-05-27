@@ -375,13 +375,13 @@ void cetakAll(listbulan First, string fileName){
     pQueue pq;
     pBantu = First;
     
-    ofstream saveFile;
-    saveFile.open(fileName);
+    // ofstream saveFile;
+    // saveFile.open(fileName);
 
     for (int i = 1; i <= 12; i++)
     {
         cout << "\nBulan : " << pBantu->months << endl << left;
-        saveFile << pBantu->months << endl;
+        // saveFile << pBantu->months << endl;
         cout    << setfill('-') << setw(6) 
                 << "+" << setw(30) 
                 << "+" << setw(12) 
@@ -412,9 +412,9 @@ void cetakAll(listbulan First, string fileName){
                             << "| " << setw(28) << pq->info 
                             << "|     " << setw(6) << pq->prior 
                             << "|\n";
-                    saveFile    << pq->no << "\n" 
-                                << pq->info << "\n"
-                                << pq->prior << "\n";
+                    // saveFile    << pq->no << "\n" 
+                    //             << pq->info << "\n"
+                    //             << pq->prior << "\n";
                     pq = pq->next ;
                     j++;
                 }
@@ -422,6 +422,42 @@ void cetakAll(listbulan First, string fileName){
                         << "+" << setw(30) 
                         << "+" << setw(12) 
                         << "+" << "+" << "\n";
+            }
+            pCari = pCari->nextminggu ;
+            // saveFile << "." << endl;
+        }
+        // saveFile << ";" << endl;
+        pBantu = pBantu->nextbulan;
+    }
+    // saveFile.close();
+}
+
+void save(listbulan First, string fileName){
+    pointerbulan pBantu;
+    pointerminggu pCari;
+    pQueue pq;
+    pBantu = First;
+    
+    ofstream saveFile;
+    saveFile.open(fileName);
+
+    for (int i = 1; i <= 12; i++)
+    {
+        saveFile << pBantu->months << endl;
+        pCari = pBantu->firstminggu;
+        while (pCari != NULL){
+            if (pCari->firstQ != NULL)
+            {
+                pq = pCari->firstQ ;
+                int j = 1;
+                while (pq != NULL) {
+                    pq->no = j;
+                    saveFile    << pq->no << "\n" 
+                                << pq->info << "\n"
+                                << pq->prior << "\n";
+                    pq = pq->next ;
+                    j++;
+                }
             }
             pCari = pCari->nextminggu ;
             saveFile << "." << endl;
@@ -539,111 +575,139 @@ int main(int argc, char const *argv[])
         found,
         cekto,
         menu;
-    //Month Lists
-    CreateList(first) ;
-    Bulan(first,b) ;
-    CreateWeek(m,first) ;
 
-    string myFileName = "todoApp.txt";
-    checkText(myFileName);
-    inputFromData(first,myFileName) ;
-    system("PAUSE");
+    string user  ;
+    string password ;
+    int p ; 
+    
+    do {
+    system("cls") ;
+    cout << "UserName : " ; cin >> user ;
+    cout << "Password : " ; cin >> password ;
+    
+    if (user == "eclipse2018" && password == "2018") {
+        p =1 ;
+        CreateList(first) ;
+        Bulan(first,b) ;
+        CreateWeek(m,first) ;
 
-    while (1)
-    {    
-        cin.ignore();       
-        system("CLS");
-        cout << "WELCOME TO THE TODO LIST APP!\n";
-        cout << "---------MENU----------\n";
-        cout << "1. Create To Do List\n" ;    
-        cout << "2. Update To Do List\n" ;
-        cout << "3. Delete To Do List\n" ;
-        cout << "4. Show To Do List per Month\n" ;
-        cout << "5. Show To Do List All\n" ;
-        cout << "99. Exit\n" ;
-        cout << "------------------------\n";
-        cout << "SELECT MENU : ";        
+        string myFileName = "todoApp.txt";
+        checkText(myFileName);
+        inputFromData(first,myFileName) ;
+        system("PAUSE");
 
-        cin.get(test,20);
-        menu = atof(test) ;
-
-        switch (menu)
-        {
-        case 1:
+        while (1)
+        {    
+            cin.ignore();       
             system("CLS");
-            cout << "----|| CREATE TODO LIST ||----\n";
-            LinearSearchMonth(first,x,status,b);
-            do
-            {   
-                LinearSearchWeek(b,key,pm);
-                createTodoList(pQ);
-                insertPriorTodoList(pQ,b,status,pm);
+            cout << "WELCOME TO THE TODO LIST APP!\n";
+            cout << "---------MENU----------\n";
+            cout << "1. Create To Do List\n" ;    
+            cout << "2. Update To Do List\n" ;
+            cout << "3. Delete To Do List\n" ;
+            cout << "4. Show To Do List per Month\n" ;
+            cout << "5. Show To Do List All\n" ;
+            cout << "99. Save and Exit\n" ;
+            cout << "------------------------\n";
+            cout << "SELECT MENU : ";        
+
+            cin.get(test,20);
+            menu = atof(test) ;
+
+            switch (menu)
+            {
+            case 1:
                 system("CLS");
                 cout << "----|| CREATE TODO LIST ||----\n";
-                cetak(status,b,pm);
-                cout << "INPUT LAGI? (y/n) \n"; cin >> lagi;
-            } while (lagi == 'y' || lagi == 'Y');
-            system("PAUSE");
-            break;
-        case 2:
-            system("CLS");
-            cout << "----|| UPDATE TODO LIST ||----\n";
-            LinearSearchMonth(first,x,status,b);
-            do
-            {
+                LinearSearchMonth(first,x,status,b);
+                do
+                {   
+                    LinearSearchWeek(b,key,pm);
+                    createTodoList(pQ);
+                    insertPriorTodoList(pQ,b,status,pm);
+                    system("CLS");
+                    cout << "----|| CREATE TODO LIST ||----\n";
+                    cetak(status,b,pm);
+                    cout << "INPUT LAGI? (y/n) \n"; cin >> lagi;
+                } while (lagi == 'y' || lagi == 'Y');
+                save(first, myFileName);
+                system("PAUSE");
+                break;
+            case 2:
                 system("CLS");
                 cout << "----|| UPDATE TODO LIST ||----\n";
-                cetak(status,b,pm) ;
-                LinearSearchWeek(b,key,pm);
-                LinearSearchToDo(pm,b,status,cekto);
-                system("CLS");
-                if(cekto == 1) {
-                    cout << "Data Tidak Ada !\n" ;
-                }
-                else{
-                    cetak(status,b,pm);
-                    cout << "UPDATE LAGI? (y/n) \n"; cin >> lagi;
-                }
-            } while (lagi == 'y' || lagi == 'Y');
-            system("PAUSE");
-            break;
-        case 3:
-            system("CLS");
-            cout << "DELETE TODO LIST\n";
                 LinearSearchMonth(first,x,status,b);
-                cetak(status,b,pm) ;
-                LinearSearchWeek(b,key,pm);
-                deleteQueue(status,b,pm);
+                do
+                {
+                    system("CLS");
+                    cout << "----|| UPDATE TODO LIST ||----\n";
+                    cetak(status,b,pm) ;
+                    LinearSearchWeek(b,key,pm);
+                    LinearSearchToDo(pm,b,status,cekto);
+                    system("CLS");
+                    if(cekto == 1) {
+                        cout << "Data Tidak Ada !\n" ;
+                    }
+                    else{
+                        cetak(status,b,pm);
+                        cout << "UPDATE LAGI? (y/n) \n"; cin >> lagi;
+                    }
+                } while (lagi == 'y' || lagi == 'Y');
+                save(first, myFileName);
                 system("PAUSE");
+                break;
+            case 3:
                 system("CLS");
                 cout << "DELETE TODO LIST\n";
-                cetak(status,b,pm);
+                    LinearSearchMonth(first,x,status,b);
+                    cetak(status,b,pm) ;
+                    LinearSearchWeek(b,key,pm);
+                    deleteQueue(status,b,pm);
+                    system("PAUSE");
+                    system("CLS");
+                    cout << "DELETE TODO LIST\n";
+                    cetak(status,b,pm);
+                    save(first, myFileName);
+                    system("PAUSE");
+                break;
+            case 4:
+                system("CLS");
+                cout << "SHOW TODO LIST A MONTH\n";
+                LinearSearchMonth(first,x,status,b) ;
+                cetak(status,b,pm) ;
+                save(first, myFileName);
                 system("PAUSE");
-            break;
-        case 4:
-            system("CLS");
-            cout << "SHOW TODO LIST A MONTH\n";
-            LinearSearchMonth(first,x,status,b) ;
-            cetak(status,b,pm) ;
-            system("PAUSE");
-            break;
-        case 5:
-            system("CLS");
-            cout << "SHOW TODO LIST A YEAR\n";
-            cetakAll(first, myFileName);
-            system("PAUSE");
-            break;
-        case 99:
-            system("CLS");
-            cout << "HAVE A GREAT DAY!\n";
-            system("PAUSE");
-            return 0;
-            break;
-        default:
-            cout << "MENU TIDAK TERSEDIA!\n";
-            system("PAUSE");
-            break;
+                break;
+            case 5:
+                system("CLS");
+                cout << "SHOW TODO LIST A YEAR\n";
+                cetakAll(first, myFileName);
+                save(first, myFileName);                
+                system("PAUSE");
+                break;
+            case 99:
+                system("CLS");
+                save(first, myFileName);
+                cout << "HAVE A GREAT DAY!\n";
+                system("PAUSE");
+                return 0;
+                break;
+            default:
+                cout << "MENU TIDAK TERSEDIA!\n";
+                system("PAUSE");
+                break;
+            }
         }
     }
+    else 
+        {
+            cout << "Akses Ditolak\n" ; 
+            system("pause") ;
+            p = 0 ;
+        }
+    } while (p == 0 ) ;
+
+    //Month Lists
+    
     
 }
