@@ -88,7 +88,7 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
     pointerbulan p ;
     p = First ;
     while (p != NULL) {
-        for (int i = 6 ; i > 0; i--) {
+        for (int i = 5 ; i > 0; i--) {
             //create
             pBaru = new minggu ;
             pBaru->weeks = i;
@@ -380,8 +380,9 @@ void cetakAll(listbulan First, string fileName){
                         << "+" << "+" << "\n";
             }
             pCari = pCari->nextminggu ;
+            if (pCari != NULL) saveFile << "." << endl;
         }
-        saveFile << ";";
+        saveFile << ";" << endl;
         pBantu = pBantu->nextbulan;
     }
     saveFile.close();
@@ -399,6 +400,20 @@ int checkText(string fileName){
     fileku.close();
 }
 
+// void inputFromData(listbulan First, string fileName){
+//     string input;
+//     for (int i = 1; i <= 12; i++){
+        
+//     }
+
+//     ifstream myFile;
+//     myFile.open(fileName);
+//     while(!myFile.eof()){
+//         myFile.get(karakter);
+//         cout << karakter << endl;
+//     }
+//     myFile.close();
+// }
 
 int main(int argc, char const *argv[])
 {   
