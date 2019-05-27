@@ -369,8 +369,8 @@ void cetakAll(listbulan First, string fileName){
                             << "| " << setw(28) << pq->info 
                             << "|     " << setw(6) << pq->prior 
                             << "|\n";
-                    saveFile    << pq->no << "\t" 
-                                << pq->info << "\t"
+                    saveFile    << pq->no << "\n" 
+                                << pq->info << "\n"
                                 << pq->prior << "\n";
                     pq = pq->next ;
                     j++;
@@ -430,8 +430,11 @@ void inputFromData(listbulan& First, string fileName){
                 myFile >> no; 
                 if (no == ".") break;
                 int nomor = stoi(no);
-
-                myFile >> info >> prioritas; //ngambil todo di minggu pertama
+                myFile.ignore();
+                // myFile >> info;
+                getline(myFile, info);
+                // cout << info << endl;
+                myFile >> prioritas; //ngambil todo di minggu pertama
 
                 //!create element
                 pQueue pBaru = new elementQ;
@@ -451,7 +454,6 @@ void inputFromData(listbulan& First, string fileName){
                     {
                         pBantu3 = pBantu3->next;
                     }
-                    
                     pBantu3->next = pBaru;
                 }
                 //!----------
