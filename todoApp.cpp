@@ -1,5 +1,5 @@
 #include <iostream>
-// #include <string.h>
+#include <string.h>
 #include <iomanip>
 #include <fstream>
 
@@ -380,9 +380,9 @@ void cetakAll(listbulan First, string fileName){
                         << "+" << "+" << "\n";
             }
             pCari = pCari->nextminggu ;
-            if (pCari != NULL) saveFile << "." << endl;
+            saveFile << "." << endl;
         }
-        saveFile << ";" << endl;
+        // saveFile << ";" << endl;
         pBantu = pBantu->nextbulan;
     }
     saveFile.close();
@@ -400,20 +400,68 @@ int checkText(string fileName){
     fileku.close();
 }
 
-// void inputFromData(listbulan First, string fileName){
-//     string input;
-//     for (int i = 1; i <= 12; i++){
-        
-//     }
+void inputFromData(listbulan& First, string fileName){
+    string  input,
+            info;
+    string no;
+    int prioritas;
 
-//     ifstream myFile;
-//     myFile.open(fileName);
-//     while(!myFile.eof()){
-//         myFile.get(karakter);
-//         cout << karakter << endl;
-//     }
-//     myFile.close();
-// }
+    ifstream myFile;
+    myFile.open(fileName);
+
+    pointerbulan pBantu = First;
+    for (int j = 1; j <= 12; j++){      //loop bulan
+        myFile >> input; //read nama bulan
+        // cout << input << endl; //read nama bulan
+        
+        pointerminggu pBantu2 = pBantu->firstminggu;
+        for (int i = 1; i <= 5; i++) //loop minggu
+        {
+
+            // cout << "minggu-" << i << endl;
+            pQueue pBantu3 = pBantu2->firstQ;
+            // cout << pBantu3 << endl;
+            
+            while (1) //loop todo =>> insert first
+            {
+
+                myFile >> no; 
+                if (no == ".") break;
+                int nomor = stoi(no);
+
+                myFile >> info >> prioritas; //ngambil todo di minggu pertama
+
+                //!create element
+                pQueue pBaru = new elementQ;
+                pBaru->no = nomor;
+                pBaru->info = info;
+                pBaru->prior = prioritas;
+                pBaru->next = NULL;
+                //!-------------
+
+                //!insert first
+                if (pBantu3 == NULL)
+                {
+                    pBantu2->firstQ = pBaru;
+                } else {
+                    pBaru->next = pBantu3;
+                    pBantu3 = pBaru;
+                }
+                //!----------
+
+                // cout << no << " " << info << " " << prioritas << endl;
+                // cout << pBaru->no << " " << pBaru->info << " " <<
+                //  pBaru->prior << endl;
+                // cout << pBantu->firstminggu->firstQ->info << endl;
+            }
+
+            pBantu2 = pBantu2->nextminggu;
+        }
+
+        pBantu = pBantu->nextbulan;
+    }
+    myFile.close();
+}
 
 int main(int argc, char const *argv[])
 {   
@@ -438,6 +486,9 @@ int main(int argc, char const *argv[])
 
     string myFileName = "todoApp.txt";
     checkText(myFileName);
+
+    inputFromData(first, myFileName);
+
     system("PAUSE");
 
     while (1)
