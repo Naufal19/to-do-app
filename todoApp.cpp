@@ -29,6 +29,7 @@ struct bulan {
 };
 
 typedef elementQ *pQueue;
+typedef elementQ* listQ;
 typedef bulan* listbulan ;
 typedef bulan* pointerbulan ;
 typedef minggu* firstminggu ;
@@ -403,6 +404,7 @@ int checkText(string fileName){
 void inputFromData(listbulan& First, string fileName){
     string  input,
             info;
+    // listQ firstQ;
     string no;
     int prioritas;
 
@@ -419,7 +421,7 @@ void inputFromData(listbulan& First, string fileName){
         {
 
             // cout << "minggu-" << i << endl;
-            pQueue pBantu3 = pBantu2->firstQ;
+            // pQueue pBantu3 = pBantu2->firstQ;
             // cout << pBantu3 << endl;
             
             while (1) //loop todo =>> insert first
@@ -439,15 +441,26 @@ void inputFromData(listbulan& First, string fileName){
                 pBaru->next = NULL;
                 //!-------------
 
-                //!insert first
-                if (pBantu3 == NULL)
+                //!insert last
+                if (pBantu2->firstQ == NULL)
                 {
                     pBantu2->firstQ = pBaru;
                 } else {
-                    pBaru->next = pBantu3;
-                    pBantu3 = pBaru;
+                    pQueue pBantu3 = pBantu2->firstQ;
+                    while (pBantu3->next != NULL)
+                    {
+                        pBantu3 = pBantu3->next;
+                    }
+                    
+                    pBantu3->next = pBaru;
                 }
                 //!----------
+
+                //!insertlastd
+                // cout << pBantu3 << endl;
+                // pQueue pBantuQ = pBantu3;
+
+                //--------
 
                 // cout << no << " " << info << " " << prioritas << endl;
                 // cout << pBaru->no << " " << pBaru->info << " " <<
