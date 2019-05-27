@@ -1,6 +1,8 @@
 #include <iostream>
 // #include <string.h>
 #include <iomanip>
+#include <fstream>
+
 using namespace std;
 
 struct elementQ
@@ -323,6 +325,80 @@ void deleteQueue(int& status, pointerbulan& pBulan, pointerminggu& pMinggu)
     }
 }
 
+void cetakAll(listbulan First, string fileName){
+    pointerbulan pBantu;
+    pointerminggu pCari;
+    pQueue pq;
+    pBantu = First;
+    
+    ofstream saveFile;
+    saveFile.open(fileName);
+
+    for (int i = 1; i <= 12; i++)
+    {
+        cout << "\nBulan : " << pBantu->months << endl << left;
+        saveFile << pBantu->months << endl;
+        cout    << setfill('-') << setw(6) 
+                << "+" << setw(30) 
+                << "+" << setw(12) 
+                << "+" << "+" << "\n";
+        cout << "|" << setw(5) << " No. " << setfill(' ')
+                    << setw(30) << "| Deskripsi" 
+                    << setw(12) << "| Prioritas" 
+                    << "|\n";
+        cout    << setfill('-') << setw(6) 
+                << "+" << setw(30) 
+                << "+" << setw(12) 
+                << "+" << "+" << "\n";
+
+        pCari = pBantu->firstminggu;
+        while (pCari != NULL){
+            if (pCari->firstQ != NULL)
+            {
+                pq = pCari->firstQ ;
+                cout << setfill(' ') << "| Week-" << setw(41) << pCari->weeks << "|" << endl ;
+                int j = 1;
+                while (pq != NULL) {
+                    pq->no = j;
+                    cout    << setfill('-') << setw(6) 
+                            << "+" << setw(30) 
+                            << "+" << setw(12) 
+                            << "+" << "+" << "\n";
+                    cout    << "| " << setfill(' ') << pq->no << setw(3) << "."
+                            << "| " << setw(28) << pq->info 
+                            << "|     " << setw(6) << pq->prior 
+                            << "|\n";
+                    saveFile    << pq->no << "\t" 
+                                << pq->info << "\t"
+                                << pq->prior << "\n";
+                    pq = pq->next ;
+                    j++;
+                }
+                cout    << setfill('-') << setw(6) 
+                        << "+" << setw(30) 
+                        << "+" << setw(12) 
+                        << "+" << "+" << "\n";
+            }
+            pCari = pCari->nextminggu ;
+        }
+        saveFile << ";";
+        pBantu = pBantu->nextbulan;
+    }
+    saveFile.close();
+}
+
+int checkText(string fileName){
+    ifstream fileku;
+    fileku.open(fileName);
+    if(fileku.fail()){
+        cout << "Your file doesn't exist!" << endl;
+        return 0;
+    } else {
+        cout << "Please wait, we're preparing your file!" << endl;
+    }
+    fileku.close();
+}
+
 
 int main(int argc, char const *argv[])
 {   
@@ -345,6 +421,10 @@ int main(int argc, char const *argv[])
     Bulan(first,b) ;
     CreateWeek(m,first) ;
 
+    string myFileName = "todoApp.txt";
+    checkText(myFileName);
+    system("PAUSE");
+
     while (1)
     {   
         system("CLS");
@@ -353,7 +433,8 @@ int main(int argc, char const *argv[])
         cout << "1. Create To Do List\n" ;    
         cout << "2. Update To Do List\n" ;
         cout << "3. Delete To Do List\n" ;
-        cout << "4. Show To Do List\n" ;
+        cout << "4. Show To Do List per Month\n" ;
+        cout << "5. Show To Do List All\n" ;
         cout << "0. Exit\n" ;
         cout << "------------------------\n";
         cout << "SELECT MENU : "; cin >> menu;
@@ -409,9 +490,15 @@ int main(int argc, char const *argv[])
             break;
         case 4:
             system("CLS");
-            cout << "SHOW TODO LIST\n";
+            cout << "SHOW TODO LIST A MONTH\n";
             LinearSearchMonth(first,x,status,b) ;
             cetak(status,b,pm) ;
+            system("PAUSE");
+            break;
+        case 5:
+            system("CLS");
+            cout << "SHOW TODO LIST A YEAR\n";
+            cetakAll(first, myFileName);
             system("PAUSE");
             break;
         case 0:
@@ -426,4 +513,5 @@ int main(int argc, char const *argv[])
             break;
         }
     }
+    
 }
