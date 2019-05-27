@@ -1,5 +1,5 @@
 #include <iostream>
-// #include <string.h>
+#include <string.h>
 #include <iomanip>
 #include <fstream>
 
@@ -88,10 +88,10 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
     pointerbulan p ;
     p = First ;
     while (p != NULL) {
-        for (int i = 6 ; i > 0; i--) {
+        for (int i = 5 ; i > 0; i--) {
             //create
             pBaru = new minggu ;
-            pBaru->weeks = i;
+            pBaru->weeks = i;            
             pBaru->nextminggu = NULL ;
             pBaru->firstQ = NULL ;   
             pBaru->lastQ = NULL ; 
@@ -104,7 +104,6 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
                     pBaru->nextminggu = p->firstminggu ;
                     p->firstminggu = pBaru ;
                 }
-
         }
         // next month
         p = p->nextbulan ;
@@ -113,14 +112,18 @@ void CreateWeek (firstminggu& pBaru, listbulan& First) {
 
 void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBantu){
     pBantu = First;
+    char x[20] ;
     status = 0;
     while (1)
     {
-        cout << "Bulan : "; cin >> key;
+        cin.ignore() ;
+        cout << "Bulan : "; cin.get(x,20);
+        key = atof(x) ;
         if (key > 12 || key < 1)
         {
             cout << "Bulan tidak valid!\n Masukkan 1-12\n";
-        } else {
+        } 
+        else {
             break;
         }
     }
@@ -138,9 +141,12 @@ void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBa
 }
 
 void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
+    char x[20] ;
     while (1)
     {
-        cout << "\nMinggu : "; cin >> key;
+        cin.ignore() ;
+        cout << "\nMinggu : "; cin.get(x,20);
+        key = atof(x) ;
         if (key > 5 || key < 1)
         {
             cout << "Minggu tidak valid!\n Masukkan 1-5\n";
@@ -168,17 +174,29 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
 void createTodoList(pQueue &pBaru)
 {
     pBaru = new elementQ;
-
+    char x[20] ;
     cout << "Todo : ";
     cin.ignore();
     getline(cin, pBaru->info);
     // cin >> pBaru->info;
     char key ;
-    cout << "Masukkan Prioritas (y,n) : " ; cin >> key ;
+    cout << "Masukkan Prioritas (Y/N) : " ; cin >> key ;
     if (key == 'y' || key == 'Y' ){
+        cin.ignore() ;
         cout << "Prioritas : ";
-        cin >> pBaru->prior;
-        pBaru->next = NULL;
+        cin.get(x,20) ;
+        int temp = atof(x) ;
+        if (atof(x) <= 10 && atof(x) > 0 )
+        {
+            pBaru->prior = atof(x);
+            pBaru->next = NULL;    
+        }
+        else
+        {    
+            cout << "Prioritas salah, input data kembali !" ;
+            createTodoList(pBaru) ;
+        }
+        
     }
     else if (key == 'n' || key == 'N')
     {
@@ -230,10 +248,13 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
 }
 
 // MASIH BUG !!
-void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
+void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status,int& cekto ) {
     int info1 ;
+    char x[20] ;
+    cin.ignore() ;
     cout << "No Todo List : " ;
-    cin >> info1 ;
+    cin.get(x,20) ;
+    info1 = atof(x) ;
     
     pQueue pBantu, pQ ;
     pBantu = pBantu0->firstQ  ;
@@ -241,29 +262,38 @@ void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status) {
     status = 0 ;
 
     cout << p->months << " " << pBantu0->weeks << "\n" ;
-    while (pBantu != NULL && status == 0)
-    {
-        if (info1 == pBantu->no ) {
-            status = 1 ;
+    
+    if (info1 != 0) {
+        while (pBantu != NULL && status == 0)
+        {
+            if (info1 == pBantu->no ) {
+                status = 1 ;
+            }
+            else {
+                pBantu = pBantu->next ;
+            }   
         }
-        else {
-            pBantu = pBantu->next ;
-        }   
-    }
 
-    if (status == 1) {
-        cout << "Data ditemukan!" << endl;
-        pQ = new elementQ;
-        cout << "Info : ";
-        cin.ignore();
-        getline(cin, pQ->info);
-        pQ->next = NULL;
-        swap (pQ->info, pBantu->info);
-        cout << "Data berhasil diupdate!" << endl;
-    } else {
-        cout << "Data tidak ditemukan!" << endl;
+        if (status == 1) {
+            cout << "Data ditemukan!" << endl;
+            pQ = new elementQ;
+            cout << "Info : ";
+            cin.ignore();
+            getline(cin, pQ->info);
+            pQ->next = NULL;
+            swap (pQ->info, pBantu->info);
+            cout << "Data berhasil diupdate!" << endl;
+        } else {
+            cout << "Data tidak ditemukan!" << endl ;
+            cekto = 1 ;
+            }
+        }
+        else
+        {
+            cout << "Input Nomor !\n" ;
+        }
     }
-}
+    
 
 void cetak (int& status, listbulan& pBulan, pointerminggu& pCari0) {
     pQueue pq ;
@@ -382,8 +412,8 @@ void cetakAll(listbulan First, string fileName){
                             << "| " << setw(28) << pq->info 
                             << "|     " << setw(6) << pq->prior 
                             << "|\n";
-                    saveFile    << pq->no << "\t" 
-                                << pq->info << "\t"
+                    saveFile    << pq->no << "\n" 
+                                << pq->info << "\n"
                                 << pq->prior << "\n";
                     pq = pq->next ;
                     j++;
@@ -394,8 +424,9 @@ void cetakAll(listbulan First, string fileName){
                         << "+" << "+" << "\n";
             }
             pCari = pCari->nextminggu ;
+            saveFile << "." << endl;
         }
-        saveFile << ";";
+        // saveFile << ";" << endl;
         pBantu = pBantu->nextbulan;
     }
     saveFile.close();
@@ -413,6 +444,82 @@ int checkText(string fileName){
     fileku.close();
 }
 
+void inputFromData(listbulan& First, string fileName){
+    string  input,
+            info;
+    // listQ firstQ;
+    string no;
+    int prioritas;
+
+    ifstream myFile;
+    myFile.open(fileName);
+
+    pointerbulan pBantu = First;
+    for (int j = 1; j <= 12; j++){      //loop bulan
+        myFile >> input; //read nama bulan
+        // cout << input << endl; //read nama bulan
+        
+        pointerminggu pBantu2 = pBantu->firstminggu;
+        for (int i = 1; i <= 5; i++) //loop minggu
+        {
+
+            // cout << "minggu-" << i << endl;
+            // pQueue pBantu3 = pBantu2->firstQ;
+            // cout << pBantu3 << endl;
+            
+            while (1) //loop todo =>> insert first
+            {
+
+                myFile >> no; 
+                if (no == ".") break;
+                int nomor = stoi(no);
+                myFile.ignore();
+                // myFile >> info;
+                getline(myFile, info);
+                // cout << info << endl;
+                myFile >> prioritas; //ngambil todo di minggu pertama
+
+                //!create element
+                pQueue pBaru = new elementQ;
+                pBaru->no = nomor;
+                pBaru->info = info;
+                pBaru->prior = prioritas;
+                pBaru->next = NULL;
+                //!-------------
+
+                //!insert last
+                if (pBantu2->firstQ == NULL)
+                {
+                    pBantu2->firstQ = pBaru;
+                } else {
+                    pQueue pBantu3 = pBantu2->firstQ;
+                    while (pBantu3->next != NULL)
+                    {
+                        pBantu3 = pBantu3->next;
+                    }
+                    pBantu3->next = pBaru;
+                }
+                //!----------
+
+                //!insertlastd
+                // cout << pBantu3 << endl;
+                // pQueue pBantuQ = pBantu3;
+
+                //--------
+
+                // cout << no << " " << info << " " << prioritas << endl;
+                // cout << pBaru->no << " " << pBaru->info << " " <<
+                //  pBaru->prior << endl;
+                // cout << pBantu->firstminggu->firstQ->info << endl;
+            }
+
+            pBantu2 = pBantu2->nextminggu;
+        }
+
+        pBantu = pBantu->nextbulan;
+    }
+    myFile.close();
+}
 
 int main(int argc, char const *argv[])
 {   
@@ -425,10 +532,12 @@ int main(int argc, char const *argv[])
     pQueue pQ ;
 
     char x, 
-        lagi; 
+        lagi,
+        test[20]; 
     int key,
         status, 
         found,
+        cekto,
         menu;
     //Month Lists
     CreateList(first) ;
@@ -437,10 +546,12 @@ int main(int argc, char const *argv[])
 
     string myFileName = "todoApp.txt";
     checkText(myFileName);
+    inputFromData(first,myFileName) ;
     system("PAUSE");
 
     while (1)
-    {   
+    {    
+        cin.ignore();       
         system("CLS");
         cout << "WELCOME TO THE TODO LIST APP!\n";
         cout << "---------MENU----------\n";
@@ -449,9 +560,12 @@ int main(int argc, char const *argv[])
         cout << "3. Delete To Do List\n" ;
         cout << "4. Show To Do List per Month\n" ;
         cout << "5. Show To Do List All\n" ;
-        cout << "0. Exit\n" ;
+        cout << "99. Exit\n" ;
         cout << "------------------------\n";
-        cout << "SELECT MENU : "; cin >> menu;
+        cout << "SELECT MENU : ";        
+
+        cin.get(test,20);
+        menu = atof(test) ;
 
         switch (menu)
         {
@@ -475,17 +589,21 @@ int main(int argc, char const *argv[])
             system("CLS");
             cout << "----|| UPDATE TODO LIST ||----\n";
             LinearSearchMonth(first,x,status,b);
-            
             do
             {
                 system("CLS");
                 cout << "----|| UPDATE TODO LIST ||----\n";
                 cetak(status,b,pm) ;
                 LinearSearchWeek(b,key,pm);
-                LinearSearchToDo(pm,b,status);
+                LinearSearchToDo(pm,b,status,cekto);
                 system("CLS");
-                cetak(status,b,pm);
-                cout << "UPDATE LAGI? (y/n) \n"; cin >> lagi;
+                if(cekto == 1) {
+                    cout << "Data Tidak Ada !\n" ;
+                }
+                else{
+                    cetak(status,b,pm);
+                    cout << "UPDATE LAGI? (y/n) \n"; cin >> lagi;
+                }
             } while (lagi == 'y' || lagi == 'Y');
             system("PAUSE");
             break;
@@ -515,7 +633,7 @@ int main(int argc, char const *argv[])
             cetakAll(first, myFileName);
             system("PAUSE");
             break;
-        case 0:
+        case 99:
             system("CLS");
             cout << "HAVE A GREAT DAY!\n";
             system("PAUSE");
