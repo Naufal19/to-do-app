@@ -117,7 +117,7 @@ void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBa
     while (1)
     {
         cin.ignore() ;
-        cout << "Bulan : "; cin.get(x,20);
+        cout << ">> Bulan : "; cin.get(x,20);
         key = atof(x) ;
         if (key > 12 || key < 1)
         {
@@ -145,7 +145,7 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
     while (1)
     {
         cin.ignore() ;
-        cout << "\nMinggu : "; cin.get(x,20);
+        cout << ">> Minggu : "; cin.get(x,20);
         key = atof(x) ;
         if (key > 5 || key < 1)
         {
@@ -193,7 +193,8 @@ void createTodoList(pQueue &pBaru)
         }
         else
         {    
-            cout << "Prioritas salah, input data kembali !" ;
+            cout << "Prioritas salah, input data kembali !\n" ;
+            system("PAUSE") ;
             createTodoList(pBaru) ;
         }
         
@@ -227,12 +228,12 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
                 pBantuPrev = pBantu;
                 pBantu = pBantu->next ;
             }
-            if (pBantu == pMinggu->firstQ && pBaru->prior < pBantu->prior){
+            if (pBantu == pMinggu->firstQ && pBaru->prior <= pBantu->prior){
                 //insert first
                 pBaru->next = pBantu;
                 pMinggu->firstQ = pBaru ;
             }
-            else if (pBantu == pMinggu->lastQ && pBaru->prior >= pBantu->prior){ 
+            else if (pBantu == pMinggu->lastQ && pBaru->prior > pBantu->prior){ 
                 //insert last
                 pBantu->next = pBaru;
                 pMinggu->lastQ = pBaru;
@@ -262,39 +263,38 @@ void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status,int&
     status = 0 ;
 
     cout << p->months << " " << pBantu0->weeks << "\n" ;
-    
-    if (info1 != 0) {
-        while (pBantu != NULL && status == 0)
-        {
-            if (info1 == pBantu->no ) {
-                status = 1 ;
+        
+        if (info1 != 0) {
+            while (pBantu != NULL && status == 0)
+            {
+                if (info1 == pBantu->no ) {
+                    status = 1 ;
+                }
+                else {
+                    pBantu = pBantu->next ;
+                }   
             }
-            else {
-                pBantu = pBantu->next ;
-            }   
+        }
+        else {
+            cout << "Input Nomor !!\n" ;
         }
 
         if (status == 1) {
-            cout << "Data ditemukan!" << endl;
-            pQ = new elementQ;
-            cout << "Info : ";
-            cin.ignore();
-            getline(cin, pQ->info);
-            pQ->next = NULL;
-            swap (pQ->info, pBantu->info);
-            cout << "Data berhasil diupdate!" << endl;
-        } else {
-            cout << "Data tidak ditemukan!" << endl ;
-            cekto = 1 ;
-            }
-        }
-        else
-        {
-            cout << "Input Nomor !\n" ;
-        }
+                cout << "Data ditemukan!" << endl;
+                pQ = new elementQ;
+                cout << "Info : ";
+                cin.ignore();
+                getline(cin, pQ->info);
+                pQ->next = NULL;
+                swap (pQ->info, pBantu->info);
+                cout << "Data berhasil diupdate!" << endl;
+                } 
+        else {
+                cout << "Data tidak ditemukan!" << endl ;
+                cekto = 1 ;
+                }
     }
-    
-
+        
 void cetak (int& status, listbulan& pBulan, pointerminggu& pCari0) {
     pQueue pq ;
     firstminggu pCari;
@@ -581,9 +581,12 @@ int main(int argc, char const *argv[])
     int p ; 
     
     do {
-    system("cls") ;
-    cout << "UserName : " ; cin >> user ;
-    cout << "Password : " ; cin >> password ;
+    cout << "\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n" ;
+    cout << "!! WELCOME TO ToDoApp.exe !!\n" ;
+    cout << "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n" ;
+    cout << "\n\t>> UserName : " ; cin >> user ;
+    cout << "\t>> Password : " ; cin >> password ;
+    cout << "\n" ;
     
     if (user == "eclipse2018" && password == "2018") {
         p =1 ;
@@ -600,7 +603,9 @@ int main(int argc, char const *argv[])
         {    
             cin.ignore();       
             system("CLS");
-            cout << "WELCOME TO THE TODO LIST APP!\n";
+            cout << "=================================\n" ;
+            cout << "||  WELCOME TO THE TODO APP ! ||\n";
+            cout << "=================================\n" ;
             cout << "---------MENU----------\n";
             cout << "1. Create To Do List\n" ;    
             cout << "2. Update To Do List\n" ;
@@ -618,7 +623,10 @@ int main(int argc, char const *argv[])
             {
             case 1:
                 system("CLS");
-                cout << "----|| CREATE TODO LIST ||----\n";
+                cout << "=================================\n" ;
+                cout << "=====|| CREATE TODO LIST ||=====\n";
+                cout << "=================================\n" ;
+                
                 LinearSearchMonth(first,x,status,b);
                 do
                 {   
@@ -626,7 +634,9 @@ int main(int argc, char const *argv[])
                     createTodoList(pQ);
                     insertPriorTodoList(pQ,b,status,pm);
                     system("CLS");
-                    cout << "----|| CREATE TODO LIST ||----\n";
+                    cout << "*********************************\n" ;
+                    cout << "-----|| CREATE TODO LIST ||-----\n";
+                    cout << "*********************************\n" ;
                     cetak(status,b,pm);
                     cout << "INPUT LAGI? (y/n) \n"; cin >> lagi;
                 } while (lagi == 'y' || lagi == 'Y');
@@ -635,12 +645,16 @@ int main(int argc, char const *argv[])
                 break;
             case 2:
                 system("CLS");
-                cout << "----|| UPDATE TODO LIST ||----\n";
+                cout << "=================================\n" ;
+                cout << "=====|| UPDATE TODO LIST ||=====\n";
+                cout << "=================================\n" ;
                 LinearSearchMonth(first,x,status,b);
                 do
                 {
                     system("CLS");
+                    cout << "*********************************\n" ;
                     cout << "----|| UPDATE TODO LIST ||----\n";
+                    cout << "*********************************\n" ;
                     cetak(status,b,pm) ;
                     LinearSearchWeek(b,key,pm);
                     LinearSearchToDo(pm,b,status,cekto);
@@ -658,21 +672,27 @@ int main(int argc, char const *argv[])
                 break;
             case 3:
                 system("CLS");
-                cout << "DELETE TODO LIST\n";
+                cout << "=================================\n" ;
+                cout << "=====|| DELETE TODO LIST ||=====\n";
+                cout << "=================================\n" ;
                     LinearSearchMonth(first,x,status,b);
                     cetak(status,b,pm) ;
                     LinearSearchWeek(b,key,pm);
                     deleteQueue(status,b,pm);
                     system("PAUSE");
                     system("CLS");
-                    cout << "DELETE TODO LIST\n";
+                    cout << "*********************************\n" ;
+                    cout << "------||DELETE TODO LIST||------\n";
+                    cout << "*********************************\n" ;
                     cetak(status,b,pm);
                     save(first, myFileName);
                     system("PAUSE");
                 break;
             case 4:
                 system("CLS");
-                cout << "SHOW TODO LIST A MONTH\n";
+                cout << "=================================\n" ;
+                cout << "==|| SHOW TODO LIST A MONTH ||==\n";
+                cout << "=================================\n" ;
                 LinearSearchMonth(first,x,status,b) ;
                 cetak(status,b,pm) ;
                 save(first, myFileName);
@@ -680,7 +700,9 @@ int main(int argc, char const *argv[])
                 break;
             case 5:
                 system("CLS");
-                cout << "SHOW TODO LIST A YEAR\n";
+                cout << "=================================\n" ;
+                cout << "===|| SHOW TODO LIST A YEAR||===\n";
+                cout << "=================================\n" ;
                 cetakAll(first, myFileName);
                 save(first, myFileName);                
                 system("PAUSE");
@@ -701,13 +723,13 @@ int main(int argc, char const *argv[])
     }
     else 
         {
-            cout << "Akses Ditolak\n" ; 
+            system("CLS") ;
+            cout << "####################\n" ;
+            cout << "ACCESS DENIED !!\n" ; 
+            cout << "####################\n" ;
             system("pause") ;
+            system("CLS") ;
             p = 0 ;
         }
     } while (p == 0 ) ;
-
-    //Month Lists
-    
-    
 }
