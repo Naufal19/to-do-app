@@ -116,12 +116,15 @@ void LinearSearchMonth(listbulan& First, int key, int &status, pointerbulan& pBa
     status = 0;
     while (1)
     {
+        cin.clear() ;
         cin.ignore() ;
         cout << ">> Bulan : "; cin.get(x,20);
         key = atof(x) ;
         if (key > 12 || key < 1)
         {
             cout << "Bulan tidak valid!\n Masukkan 1-12\n";
+            system("PAUSE");
+            system("CLS");
         } 
         else {
             break;
@@ -144,6 +147,7 @@ void LinearSearchWeek(pointerbulan& First, int& key, pointerminggu &pBantu){
     char x[20] ;
     while (1)
     {
+        cin.clear() ;
         cin.ignore() ;
         cout << ">> Minggu : "; cin.get(x,20);
         key = atof(x) ;
@@ -176,6 +180,7 @@ void createTodoList(pQueue &pBaru)
     pBaru = new elementQ;
     char x[20] ;
     cout << "Todo : ";
+    cin.clear() ;
     cin.ignore();
     getline(cin, pBaru->info);
     // cin >> pBaru->info;
@@ -228,6 +233,7 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
                 pBantuPrev = pBantu;
                 pBantu = pBantu->next ;
             }
+
             if (pBantu == pMinggu->firstQ && pBaru->prior <= pBantu->prior){
                 //insert first
                 pBaru->next = pBantu;
@@ -252,6 +258,7 @@ void insertPriorTodoList(pQueue& pBaru, pointerbulan& Bantu, int& status, pointe
 void LinearSearchToDo (pointerminggu& pBantu0, pointerbulan& p, int& status,int& cekto ) {
     int info1 ;
     char x[20] ;
+    cin.clear() ;
     cin.ignore() ;
     cout << "No Todo List : " ;
     cin.get(x,20) ;
@@ -601,6 +608,7 @@ int main(int argc, char const *argv[])
 
         while (1)
         {    
+            cin.clear() ;
             cin.ignore();       
             system("CLS");
             cout << "=================================\n" ;
